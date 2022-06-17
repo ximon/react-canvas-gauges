@@ -1,27 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import {LinearGauge} from 'canvas-gauges'
 
-class ReactLinearGauge extends React.Component {
-  componentDidMount () {
-    const options = Object.assign({}, this.props, {
-      renderTo: this.el
+function ReactRadialGauge(props) {
+    let el
+    
+    useEffect(() => {
+        const options = {
+            ...props, 
+            renderTo: el
+        }
+
+        const gauge = new LinearGauge(options).draw()
+        gauge.value = props.value
+        gauge.update(options)
     })
-    this.gauge = new LinearGauge(options).draw()
-  }
 
-  componentWillReceiveProps (nextProps) {
-    this.gauge.value = nextProps.value
-    this.gauge.update(nextProps)
-  }
-
-  render () {
     return (
-      <canvas ref={(canvas) => {
-        this.el = canvas
-      }} />
+      <canvas ref={canvas => { 
+        el = canvas
+     }} />
     )
   }
-}
-
-export default ReactLinearGauge
+  
+  export default ReactRadialGauge
